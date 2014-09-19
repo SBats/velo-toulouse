@@ -1,0 +1,11 @@
+<div id="stations-fav">
+	<ul>
+		<li ng-repeat="station in favStations">
+			<a ui-sref="station({stationId: {{station.number}} })">
+				<h2>{{station.name}}</h2>
+				<h3>{{station.address}}</h3>
+			</a>
+			<span ng-click="removeFav(station.number)">Supprimer des Favoris</span>
+		</li>
+	</ul>
+</div>
