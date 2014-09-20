@@ -1,24 +1,18 @@
-<div id="stations-map">
+<div class="main-container">
+	<div id="stations-map">
 
-	<google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" events="map.events">
+		<google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" events="map.events">
 
-		<markers models="stationMarkers" coords="'self'" events="markersEvents" icon="'icon'" isLabel="true" options="'options'"></markers>
+			<markers models="stationMarkers" coords="'self'" events="markersEvents" icon="'icon'" isLabel="true" options="'options'"></markers>
 
-	</google-map>
+		</google-map>
 
-	<paper-fab iconSrc="img/icons/geoloc.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
+		<paper-fab iconSrc="img/icons/{{currentView}}.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
 
-</div>
-
-<div class="navbar filled">
-	<div class="left-part">
-		<paper-icon-button icon="menu" style="fill:white;"></paper-icon-button>
-		<h1>{{title}}</h1>
-	</div>
-
-	<div class="right-part">
-
-		<paper-icon-button icon="{{button.icon}}" iconSrc="{{button.iconSrc}}" ng-click="{{button.action}}()" style="{{button.style}}" class="{{button.class}}" ng-repeat="button in buttons"></paper-icon-button>
+		
 
 	</div>
+
+	<div class="navbar filled" nav-bar></div>
+
 </div>

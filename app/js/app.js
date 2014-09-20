@@ -9,6 +9,8 @@ var app = angular.module('veloToulouse', [
   'veloToulouse.map',
   'veloToulouse.station',
   'veloToulouse.favoris',
+  'veloToulouse.navbar',
+  'veloToulouse.sideMenu',
   'veloServices'
 ]);
 

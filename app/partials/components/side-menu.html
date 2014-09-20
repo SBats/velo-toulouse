@@ -1,0 +1,36 @@
+<div id="side-menu" class="">
+    <div class="menu">
+    	<div class="head-part">
+    		<div class="avatar">
+    			<a href="http://simonbats.com" title="Portfolio de Simon Bats">
+    				<img src="img/avatar-sb.png" alt="Simon Bats"/>
+    			</a>
+    		</div>
+    		<div class="text-infos">
+    			<a href="http://simonbats.com" title="Portfolio de Simon Bats">
+    				<span class="name">Simon Bats</span>
+    			</a>
+    		</div>
+    	</div>
+	    <ul class="links">
+	        <li>
+	        	<div>
+		        	<a ui-sref="map" ng-click="closeMenu()">
+		        		<core-icon icon="google"></core-icon> Carte
+		        		<paper-ripple class="recenteringTouch" fit></paper-ripple>
+		        	</a>
+		        </div>
+	        </li>
+
+	        <li>
+	        	<div>
+		        	<a ui-sref="favoris" ng-click="closeMenu()">
+		        		<core-icon icon="star"></core-icon> Mes Favoris
+		        		<paper-ripple class="recenteringTouch" fit></paper-ripple>
+		        	</a>
+	        	</div>
+	        </li>
+	    </ul>
+    </div>
+    <div class="menu-back" ng-click="closeMenu()"></div>
+ </div>

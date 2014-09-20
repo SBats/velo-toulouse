@@ -1,45 +1,42 @@
-<div id="station{{ station.number }}">
-	<div class="header picture">
-		<img src="img/bg-2.jpg" alt="station de velô"/>
-		<div class="title">
-			<h1>{{ station.name }}</h1>
-			<h2>{{ station.address }}</h2>
+<div class="main-container">
+	<div id="station{{ station.number }}" class="station-infos">
+		<div class="header picture">
+			<img src="img/bg-2.jpg" alt="station de velô"/>
+			<div class="title">
+				<h1>{{ station.name }}</h1>
+				<h2>{{ station.address }}</h2>
+			</div>
 		</div>
+
+		<paper-fab icon="{{favOrNot}}" style="fill:white" ng-click="changeFav()" class="fav"></paper-fab>
+
+		<div class="content">
+
+			<div class="row">
+				<div class="velo-infos card">
+					<span class="number">{{ station.available_bikes }}</span>
+					<span class="caption">Vélos</span>
+					<paper-shadow z="1"></paper-shadow>
+				</div>
+				<div class="park-infos card">
+					<span class="number">{{ station.available_bike_stands }}</span>
+					<span class="caption">Places</span>
+					<paper-shadow z="1"></paper-shadow>
+				</div>
+			</div>
+			<div class="row">
+				<div class="distance card">
+					<span class="number">12 {{station.distance}}</span>
+					<span class="caption">jusqu'à la station</span>
+					<paper-shadow z="1"></paper-shadow>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
-	<paper-fab icon="{{favOrNot}}" style="fill:white" ng-click="changeFav()" class="fav"></paper-fab>
-
-	<div class="content">
-
-		<div class="row">
-			<div class="velo-infos card">
-				<span class="number">{{ station.available_bikes }}</span>
-				<span class="caption">Vélos</span>
-				<paper-shadow z="1"></paper-shadow>
-			</div>
-			<div class="park-infos card">
-				<span class="number">{{ station.available_bike_stands }}</span>
-				<span class="caption">Places</span>
-				<paper-shadow z="1"></paper-shadow>
-			</div>
-		</div>
-		<div class="row">
-			<div class="distance card">
-				<span class="number">12 {{distance}}</span>
-				<span class="caption">jusqu'à la station</span>
-				<paper-shadow z="1"></paper-shadow>
-			</div>
-		</div>
-	</div>
+	<div class="navbar" nav-bar></div>
 
 </div>
 
-<div class="navbar">
-	<div class="left-part">
-		<paper-icon-button icon="arrow-back" style="fill:white;" ui-sref="map"></paper-icon-button>
-	</div>
 
-	<div class="right-part">
-		<paper-icon-button icon="refresh" style="fill:white;" ng-click="refreshStation()" class="refresh"></paper-icon-button>
-	</div>
-</div>

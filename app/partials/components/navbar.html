@@ -1,0 +1,13 @@
+<div class="left-part">
+	<paper-icon-button icon="menu" style="fill:white;" ng-click="openMenu()" ng-if="!backButton"></paper-icon-button>
+
+	<paper-icon-button icon="arrow-back" style="fill:white;" ui-sref="map" ng-if="backButton"></paper-icon-button>
+
+	<h1 ng-if="title">{{title}}</h1>
+</div>
+
+<div class="right-part">
+
+	<paper-icon-button icon="{{button.icon}}" iconSrc="{{button.iconSrc}}" style="{{button.style}}" class="{{button.class}}" ng-click="eventsHandler($event)" ng-repeat="button in buttons"></paper-icon-button>
+
+</div>

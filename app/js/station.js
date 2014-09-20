@@ -13,12 +13,24 @@ angular.module('veloToulouse.station', [])
 			refresh: {
 				icon: 'refresh',
 				iconSrc: '',
-				action: 'refreshMarkers',
 				style: 'fill:white;',
 				class: 'refresh'
 			}
 
 		};
+
+		$scope.eventsHandler = function(event) {
+			switch ($(event.target).attr('class')) {
+				case 'refresh':
+					$scope.updateStation();
+					break;
+
+				default:
+					$scope.updateStation();
+			}
+		}
+
+		$scope.backButton = true;
 
 		$scope.favOrNot = '';
 
@@ -30,7 +42,7 @@ angular.module('veloToulouse.station', [])
 
 				WhereAmI.getPosition(function(data) {	
 
-			    	$scope.distance = AStation.distance.query({geoloc: data.coords.latitude+','+data.coords.longitude, stationLoc: $scope.station.position.lat+','+$scope.station.position.lng});
+			    	$scope.station.distance = AStation.distance.query({geoloc: data.coords.latitude+','+data.coords.longitude, stationLoc: $scope.station.position.lat+','+$scope.station.position.lng});
 		   
 			    });
 			}
@@ -60,6 +72,29 @@ angular.module('veloToulouse.station', [])
 
 			updateFavOrNot();
 
+		}
+
+		$scope.updateStation = function() {
+
+			var updatedInfos = AStation.infos.query({stationNumber: $stateParams.stationId}, function() {
+
+				$scope.station.available_bikes = updatedInfos.available_bikes;
+
+				$scope.station.available_bike_stands = updatedInfos.available_bike_stands;
+
+				if (navigator.geolocation) {
+
+					WhereAmI.getPosition(function(data) {	
+
+				    	$scope.station.distance = AStation.distance.query({geoloc: data.coords.latitude+','+data.coords.longitude, stationLoc: $scope.station.position.lat+','+$scope.station.position.lng});
+			   
+				    });
+				}
+
+
+			});
+
+			
 		}
 
 	}

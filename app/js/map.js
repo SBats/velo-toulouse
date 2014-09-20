@@ -17,19 +17,36 @@ angular.module('veloToulouse.map', [])
 			geoloc: {
 				icon: '',
 				iconSrc: 'img/icons/geoloc.png',
-				action: 'map.geoloc',
+				action: 'map.geoloc()',
 				style: '',
 				class: 'geoloc'
 			},
 			refresh: {
 				icon: 'refresh',
 				iconSrc: '',
-				action: 'refreshMarkers',
+				action: 'refreshMarkers()',
 				style: 'fill:white;',
 				class: 'refresh'
 			}
 
 		};
+
+		$scope.backButton = false;
+
+		$scope.eventsHandler = function(event) {
+			switch ($(event.target).attr('class')) {
+				case 'refresh':
+					$scope.refreshMarkers();
+					break;
+
+				case 'geoloc':
+					$scope.map.geoloc();
+					break;
+
+				default:
+					$scope.refreshMarkers();
+			}
+		}
 
 		$scope.currentView = mapElement;
 
@@ -107,7 +124,7 @@ angular.module('veloToulouse.map', [])
 			});
 		}
 
-		$scope.switchMarkers = function(event){
+		$scope.switchMarkers = function(event) {
 			if (mapElement === 'velo' ) {
 				$scope.currentView = mapElement = 'station';
 			}else {
@@ -119,7 +136,7 @@ angular.module('veloToulouse.map', [])
 
 		}
 
-		$scope.refreshMarkers = function(){
+		$scope.refreshMarkers = function() {
 			$scope.stationMarkers = [];
 			loadMarkers();
 
