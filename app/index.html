@@ -9,23 +9,22 @@
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
   <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
   <link rel="stylesheet" href="css/app.css"/>
-  <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+  <link rel="import" href="bower_components/polymer/paper-elements/paper-elements.html">
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
-  <ul class="menu">
-    <li><a ui-sref="map">map</a></li>
-    <li><a ui-sref="favoris">favoris</a></li>
-  </ul>
-
   <!--[if lt IE 9]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
   <div ui-view></div>
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
+  <div id="side-menu" class="">
+    <ul class="menu">
+      <li><a ui-sref="map">Carte</a></li>
+      <li><a ui-sref="favoris">Favoris</a></li>
+    </ul>
+  </div>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>

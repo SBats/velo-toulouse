@@ -8,9 +8,24 @@ angular.module('veloToulouse.station', [])
 		var localfavs = [];
 		localStorageService.bind($scope, 'favoris', localfavs);
 
+		$scope.title = "";
+		$scope.buttons = {
+			refresh: {
+				icon: 'refresh',
+				iconSrc: '',
+				action: 'refreshMarkers',
+				style: 'fill:white;',
+				class: 'refresh'
+			}
+
+		};
+
 		$scope.favOrNot = '';
 
 		$scope.station = AStation.infos.query({stationNumber: $stateParams.stationId}, function() {
+
+			$scope.station.name = $scope.station.name.substring($scope.station.name.indexOf('-')+1);
+
 			if (navigator.geolocation) {
 
 				WhereAmI.getPosition(function(data) {	
@@ -28,9 +43,9 @@ angular.module('veloToulouse.station', [])
 
 			var index = localfavs.indexOf($scope.station.number);
 			if (index > -1) {
-				$scope.favOrNot = 'Enlever des Favoris';
+				$scope.favOrNot = 'star';
 			}else {
-				$scope.favOrNot = 'Ajouter aux Favoris';
+				$scope.favOrNot = 'star-outline';
 			}
 		}
 

@@ -14,6 +14,7 @@ angular.module('veloToulouse.favoris', [])
 
 		Stations.query(function(data){
 			angular.forEach(data, function(aStation){
+				aStation.name = aStation.name.substring(aStation.name.indexOf('-')+1);
 				var index = localfavs.indexOf(aStation.number);
 				if (index > -1) {
 					$scope.favStations.push(aStation);

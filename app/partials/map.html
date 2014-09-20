@@ -6,10 +6,19 @@
 
 	</google-map>
 
-	<span class="geoloc" ng-click="map.geoloc()">Geoloc</span>
+	<paper-fab iconSrc="img/icons/geoloc.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
 
-	<span class="switch" ng-click="switchMarkers()">Switch</span>
+</div>
 
-	<span class="refresh" ng-click="refreshMarkers()">Refresh</span>
+<div class="navbar filled">
+	<div class="left-part">
+		<paper-icon-button icon="menu" style="fill:white;"></paper-icon-button>
+		<h1>{{title}}</h1>
+	</div>
 
+	<div class="right-part">
+
+		<paper-icon-button icon="{{button.icon}}" iconSrc="{{button.iconSrc}}" ng-click="{{button.action}}()" style="{{button.style}}" class="{{button.class}}" ng-repeat="button in buttons"></paper-icon-button>
+
+	</div>
 </div>

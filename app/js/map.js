@@ -12,6 +12,27 @@ angular.module('veloToulouse.map', [])
 
 		$scope.stationMarkers = [];
 
+		$scope.title = "Carte";
+		$scope.buttons = {
+			geoloc: {
+				icon: '',
+				iconSrc: 'img/icons/geoloc.png',
+				action: 'map.geoloc',
+				style: '',
+				class: 'geoloc'
+			},
+			refresh: {
+				icon: 'refresh',
+				iconSrc: '',
+				action: 'refreshMarkers',
+				style: 'fill:white;',
+				class: 'refresh'
+			}
+
+		};
+
+		$scope.currentView = mapElement;
+
 		$scope.map = {
 		    center: {
 		        latitude: lat,
@@ -75,7 +96,7 @@ angular.module('veloToulouse.map', [])
 					currentMarker.icon = 'img/markers/'+ mapElement.substr(0,1) +'marker-'+ percent +'.png';
 					currentMarker.options = {
 						'labelContent': available,
-						'labelAnchor': '4 48',
+						'labelAnchor': '16 48',
 						'labelClass': 'availableNumber '+mapElement
 					};
 
@@ -86,11 +107,11 @@ angular.module('veloToulouse.map', [])
 			});
 		}
 
-		$scope.switchMarkers = function(){
+		$scope.switchMarkers = function(event){
 			if (mapElement === 'velo' ) {
-				mapElement = 'station';
+				$scope.currentView = mapElement = 'station';
 			}else {
-				mapElement = 'velo';
+				$scope.currentView = mapElement = 'velo';
 			}
 
 			$scope.refreshMarkers();

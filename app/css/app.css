@@ -1,32 +1,252 @@
 /* app css stylesheet */
 
+
+/* -- Main colors : red = #f34235; blue/grey = #5f7c8a -- */
+
+
+/* ----------- GENERAL -----------*/
+* {
+  webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+h1 {
+  margin: 0;
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1.42em;
+  line-height: 2em;
+  vertical-align: top;
+}
+
+.ng-scope {
+  height: 100%;
+  width: 100%;
+}
+
+
+/* -------- NAVBAR -------- */
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5em;
+  padding: 1em; 
+  color: #fff;
+}
+
+.navbar.filled {
+  background: #f34235;
+}
+
+.navbar .left-part {
+  float: left;
+  text-align: left;
+}
+
+.navbar .right-part {
+  float: right;
+  text-align: right
+}
+
+
+
+/* ---------- SIDE MENU --------- */
+
+#side-menu {
+  position: absolute;
+  background: rgba(50,50,50,0.4);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  opacity: 0;
+  left: -100%;
+}
+
 .menu {
   list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 22em;
+  padding: 0 0 0 6%;
+  margin: 0;
+  background: #f9f9f9;
+}
+
+#side-menu.opened {
+  opacity: 1;
+  left:0;
+}
+
+#side-menu.opened .menu {
+  left: 0;
 }
 
 .menu:before {
-  content: "[";
 }
 
 .menu:after {
-  content: "]";
 }
 
 .menu > li {
-  display: inline;
 }
 
 .menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
+
 }
 
 .menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
 }
 
-.angular-google-map-container { height: 600px; width: 400px; }
+
+/* ------------- MAP PAGE -------------- */
+
+.switch {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  background: #333;
+}
+
+.switch.velo {
+  background: #5f7c8a;
+}
+
+.switch.station {
+  background: #f34235;
+}
+
+#stations-map, .angular-google-map, .angular-google-map-container { height: 100%; width: 100%; }
+
+.availableNumber {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1em;
+  font-weight: 700;
+  display: block;
+  width: 34px;
+  text-align: center;
+}
+
+.availableNumber.velo {
+  color: #f34235;
+} 
+
+.availableNumber.station {
+  color: #5f7c8a;
+} 
+
+
+
+
+/* ----------- STATION PAGE ------------ */
+
+.header {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  vertical-align: bottom;
+  position: relative;
+  overflow: hidden;
+}
+
+.header h1 {
+  font-size: 2.43em;
+}
+
+.header h2 {
+  font-size: 1.43em;
+}
+
+.header.picture {
+  height: 40%;
+}
+
+.header.picture img {
+  width: auto;
+  height: 100%;
+}
+
+.header.picture .title {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 2em;
+
+  background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.4)));
+  background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+  background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+  background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#66000000',GradientType=0 );
+
+}
+
+.content {
+  background: #e5e5e5;
+  height: 60%;
+}
+
+.row {
+  padding: 2em;
+  width: 100%;
+  clear: both;
+}
+
+.card {
+  background: #f9f9f9;
+  padding: 2em;
+  border-radius: 2px;
+  text-align: center;
+}
+
+.velo-infos, .park-infos {
+  width: 48%;
+  float: left;
+}
+
+.velo-infos {
+  margin-right: 4%;
+}
+
+.number {
+  font-size: 3.2em;
+  display: block;
+}
+
+.velo-infos .number {
+  color: #f34235;
+}
+
+.park-infos .number {
+  color: #5f7c8a;
+}
+
+.distance .number {
+  color: #2095f2;
+}
+
+.caption {
+  font-size: 1em;
+  color: #989898;
+}
+
+.fav {
+  color: #fff;
+  position: absolute;
+  top: 37%;
+  right: 5%;
+  z-index: 99;
+}
