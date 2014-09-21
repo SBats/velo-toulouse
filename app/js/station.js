@@ -8,15 +8,22 @@ angular.module('veloToulouse.station', [])
 		var localfavs = [];
 		localStorageService.bind($scope, 'favoris', localfavs);
 
-		$scope.title = "";
-		$scope.buttons = {
-			refresh: {
-				icon: 'refresh',
-				iconSrc: '',
-				style: 'fill:white;',
-				class: 'refresh'
-			}
 
+		$scope.title = "";
+
+		$scope.navbar = {
+			buttons: {
+				refresh: {
+					icon: 'refresh',
+					iconSrc: '',
+					style: 'fill:white;',
+					class: 'refresh'
+				}
+
+			},
+			menuButtons: {},
+			filledOrNot: '',
+			backButton: true
 		};
 
 		$scope.eventsHandler = function(event) {
@@ -30,13 +37,11 @@ angular.module('veloToulouse.station', [])
 			}
 		}
 
-		$scope.backButton = true;
-
 		$scope.favOrNot = '';
 
 		$scope.station = AStation.infos.query({stationNumber: $stateParams.stationId}, function() {
 
-			$scope.station.name = $scope.station.name.substring($scope.station.name.indexOf('-')+1);
+			$scope.station.name = trim1($scope.station.name.substring($scope.station.name.indexOf('-')+1));
 
 			if (navigator.geolocation) {
 

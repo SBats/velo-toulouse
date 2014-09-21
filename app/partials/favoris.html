@@ -2,22 +2,28 @@
 	<div id="stations-fav">
 		<ul class="favs">
 			<li ng-repeat="station in favStations" class="aStation">
-				<div class="numeral-infos">
-					<ul>
-						<li class="velo">{{station.available_bikes}} <img src="img/icons/velo.png" alt="velo icon"/></li>
-						<li class="station">{{station.available_bike_stands}} <img src="img/icons/station.png" alt="station icon"/></li>
-					</ul>
-				</div>
-				<a class="text-infos" ui-sref="station({stationId: {{station.number}} })">
-					<h2>{{station.name}}</h2>
-					<h3>{{station.address}}</h3>
-					<span>{{station.distance}}</span>
+				<a  ui-sref="station({stationId: {{station.number}} })">
+					<paper-ripple class="recenteringTouch" fit></paper-ripple>
+					<div class="numeral-infos">
+						<ul>
+							<li class="velo">{{station.available_bikes}} <img src="img/icons/velo.png" alt="velo icon"/></li>
+							<li class="station">{{station.available_bike_stands}} <img src="img/icons/station.png" alt="station icon"/></li>
+						</ul>
+					</div>
+					
+					<div class="text-infos">
+						<h2>{{station.name}}</h2>
+						<h3>{{station.address}}</h3>
+						<span>{{station.distance}}</span>
+					</div>
+					<paper-icon-button icon="delete" style="fill: #747474;" class="delete" ng-click="removeFav(station.number, $event)"></paper-icon-button>
 				</a>
-				<paper-icon-button icon="delete" style="fill: #747474;" class="delete" ng-click="removeFav(station.number)"></paper-icon-button>
 			</li>
 		</ul>
+
+		<p ng-if="favStations.length === 0" class="no-stations">Vous n'avez pas de stations favorites</p>
 	</div>
 
-	<div class="navbar filled" nav-bar></div>
+	<div nav-bar></div>
 
 </div>

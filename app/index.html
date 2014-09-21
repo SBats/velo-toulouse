@@ -13,12 +13,14 @@
   <link rel="import" href="partials/components/icon-set.html">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
 </head>
-<body>
+<body ng-controller="MainCtrl">
   <!--[if lt IE 9]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-  <div ui-view class="main-view"></div>
+  <div class="view-container">
+    <div ui-view class="main-view"></div>
+  </div>
 
   <div side-menu></div>
 
@@ -30,6 +32,7 @@
   <script src="bower_components/lodash/dist/lodash.underscore.min.js"></script>
   <script src="bower_components/angular-google-maps/dist/angular-google-maps.min.js"></script>
   <script src="bower_components/angular-local-storage/angular-local-storage.min.js"></script>
+  <script src="bower_components/marker-clusterer/markerclusterer_compiled.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>  
   <script src="js/navbar.js"></script>  

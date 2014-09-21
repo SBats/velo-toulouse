@@ -3,6 +3,7 @@
 
 var lat = 43.603937,
 	lng = 1.443253,
+	currentZoom = 16,
 	mapElement = 'velo';
 
 angular.module('veloToulouse.map', [])
@@ -10,28 +11,28 @@ angular.module('veloToulouse.map', [])
 .controller('MapCtrl', ['$scope', 'Stations', 'WhereAmI', '$state', 
 	function($scope, Stations, WhereAmI, $state) {
 
-		$scope.stationMarkers = [];
-
 		$scope.title = "Carte";
-		$scope.buttons = {
-			geoloc: {
-				icon: '',
-				iconSrc: 'img/icons/geoloc.png',
-				action: 'map.geoloc()',
-				style: '',
-				class: 'geoloc'
+
+		$scope.navbar = {
+			buttons: {
+				geoloc: {
+					icon: '',
+					iconSrc: 'img/icons/geoloc.png',
+					style: '',
+					class: 'geoloc'
+				},
+				refresh: {
+					icon: 'refresh',
+					iconSrc: '',
+					style: 'fill:white;',
+					class: 'refresh'
+				}
+
 			},
-			refresh: {
-				icon: 'refresh',
-				iconSrc: '',
-				action: 'refreshMarkers()',
-				style: 'fill:white;',
-				class: 'refresh'
-			}
-
+			menuButtons: {},
+			filledOrNot: 'filled',
+			backButton: false
 		};
-
-		$scope.backButton = false;
 
 		$scope.eventsHandler = function(event) {
 			switch ($(event.target).attr('class')) {
@@ -48,6 +49,11 @@ angular.module('veloToulouse.map', [])
 			}
 		}
 
+		$scope.stationMarkers = {
+			list: [],
+			control: {}
+		};
+
 		$scope.currentView = mapElement;
 
 		$scope.map = {
@@ -55,16 +61,28 @@ angular.module('veloToulouse.map', [])
 		        latitude: lat,
 		        longitude: lng
 		    },
-		    zoom: 16,
+		    zoom: currentZoom,
 		    options: {
-		    	disableDefaultUI: true
+		    	disableDefaultUI: true,
+		    	minZoom: 14,
+		    	maxZoom: 18
 		    },
 		    control: {},
 		    events: {
-			    dragend : function(maps, dragend){
-			    	var coord = maps.getCenter();
+		    	tilesloaded: function (map) {
+		            $scope.$apply(function () {
+		            	$scope.mapInstance = map;
+		            	loadMarkers();
+
+	           	 	});
+		        },
+			    dragend: function(map, dragend){
+			    	var coord = map.getCenter();
 			    	lat = coord.k;
 					lng = coord.B;
+				},
+				zoom_changed: function(map, zoom_changed) {
+					currentZoom = map.getZoom();
 				}
 		    },
 		    geoloc: function() {
@@ -117,11 +135,14 @@ angular.module('veloToulouse.map', [])
 						'labelClass': 'availableNumber '+mapElement
 					};
 
-					$scope.stationMarkers.push(currentMarker);
+					$scope.stationMarkers.list.push(currentMarker);
+
 				});
 
-
+				
+				
 			});
+			
 		}
 
 		$scope.switchMarkers = function(event) {
@@ -137,12 +158,10 @@ angular.module('veloToulouse.map', [])
 		}
 
 		$scope.refreshMarkers = function() {
-			$scope.stationMarkers = [];
+			$scope.stationMarkers.list = [];
 			loadMarkers();
 
 		}
-
-		loadMarkers();
 
 		//$scope.stations = Stations.query();
 }])

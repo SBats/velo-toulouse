@@ -3,16 +3,16 @@
 
 		<google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" events="map.events">
 
-			<markers models="stationMarkers" coords="'self'" events="markersEvents" icon="'icon'" isLabel="true" options="'options'"></markers>
+			<markers models="stationMarkers.list" coords="'self'" events="markersEvents" icon="'icon'" isLabel="true" options="'options'" control="stationMarkers.control"></markers>
 
 		</google-map>
 
-		<paper-fab iconSrc="img/icons/{{currentView}}.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
+		<paper-fab iconSrc="img/icons/{{currentView}}-view-white.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
 
 		
 
 	</div>
 
-	<div class="navbar filled" nav-bar></div>
+	<div nav-bar></div>
 
 </div>
