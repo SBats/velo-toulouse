@@ -1,0 +1,21 @@
+<div class="navbar {{navbar.filledOrNot}}">
+	<div class="left-part">
+		<paper-icon-button icon="menu" style="fill:white;" ng-click="openMenu()" ng-if="!navbar.backButton"></paper-icon-button>
+
+		<paper-icon-button icon="arrow-back" style="fill:white;" ng-click="goToPreviousState()" ng-if="navbar.backButton"></paper-icon-button>
+
+		<h1 ng-if="title">{{title}}</h1>
+	</div>
+
+	<div class="right-part">
+
+		<paper-icon-button icon="{{button.icon}}" iconSrc="{{button.iconSrc}}" style="{{button.style}}" class="{{button.class}}" ng-click="eventsHandler($event)" ng-repeat="button in navbar.buttons"></paper-icon-button>
+
+		<paper-menu-button icon="{{menuButton.icon}}" src="{{menuButton.iconSrc}}" halign="{{menuButton.halign}}" valign="{{menuButton.valign}}" style="{{menuButton.style}}" class="{{menuButton.class}}" ng-repeat="menuButton in navbar.menuButtons">
+			
+			<paper-item class="{{child.class}}" icon="{{child.icon}}" label="{{child.label}}" ng-repeat="child in menuButton.childs" ng-click="eventsHandler($event)"></paper-item>
+		
+		</paper-menu-button>
+
+	</div>
+</div>
