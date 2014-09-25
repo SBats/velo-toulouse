@@ -5,7 +5,9 @@
 var app = angular.module('veloToulouse', [
   'ui.router',
   'google-maps',
+  'ngAnimate',
   'LocalStorageModule',
+  'veloToulouse.home',
   'veloToulouse.map',
   'veloToulouse.station',
   'veloToulouse.favoris',
@@ -14,21 +16,30 @@ var app = angular.module('veloToulouse', [
   'veloServices'
 ]);
 
-app.controller('MainCtrl',['$rootScope', '$state',
-  function($rootScope, $state) {
+app.controller('MainCtrl',['$rootScope', '$scope', '$state',
+  function($rootScope, $scope, $state) {
 
     $rootScope.previousState;
     $rootScope.currentState;
     $rootScope.$on('$stateChangeSuccess', function(ev, to, toParams, from, fromParams) {
         $rootScope.previousState = from.name;
         $rootScope.currentState = to.name;
+        $rootScope.updateNavBar(to.name);
+        if (to.name !== 'home') {
+          $scope.uiViewShown = true;
+        }else {
+          $scope.uiViewShown = false;
+        }
+
+        var ChildElement = document.querySelector('.main-view');
+        $rootScope.childScope = angular.element(ChildElement).scope();
     });
 
     $rootScope.goToPreviousState = function() {
       if ($rootScope.previousState !== '') {
         $state.go($rootScope.previousState);
       }else {
-        $state.go('map');
+        $state.go('home');
       }
       
     }
@@ -38,7 +49,7 @@ app.controller('MainCtrl',['$rootScope', '$state',
 
 app.config(function($stateProvider, $urlRouterProvider) {
     
-  $urlRouterProvider.otherwise('/map');
+  $urlRouterProvider.otherwise('home');
         
 });
 

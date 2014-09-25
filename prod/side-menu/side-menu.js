@@ -7,7 +7,7 @@ angular.module('veloToulouse.sideMenu',[])
 	return {
 		scope: true,
 		restric: 'A',
-		templateUrl: "partials/components/side-menu.html",
+		templateUrl: "side-menu/side-menu.html",
 		controller: 'SideMenuCtrl'
 	};
 

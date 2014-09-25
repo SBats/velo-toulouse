@@ -1,68 +1,22 @@
 'use strict';
 
 
-angular.module('veloToulouse.favoris', [])
+angular.module('veloToulouse.favoris', ['veloToulouse.navbar'])
 
 .controller('FavCtrl', ['$scope', 'localStorageService', 'Stations', 'WhereAmI', 'AStation', 'CalculDistance', '$state', 
 	function($scope, localStorageService, Stations, WhereAmI, AStation, CalculDistance, $state) {		
 
-		$scope.title = "Mes Favoris";
+		$scope.$on("refreshFavs", function (event) {
+		   $scope.loadStations();
+		});
 
-		$scope.navbar = {
-			buttons: {
-				refresh: {
-					icon: 'refresh',
-					iconSrc: '',
-					style: 'fill:white;',
-					class: 'refresh'
-				}
+		$scope.$on("sortAlpha", function (event) {
+		   $scope.sortByAlpha();
+		});
 
-			},
-			menuButtons: {
-				sort: {
-					icon: 'sort',
-					iconSrc: '',
-					halign: 'right',
-					valign: 'top',
-					style: '',
-					class: 'sort',
-					childs: {
-						alpha: {
-							label: 'Az',
-							icon: '',
-							class: 'alpha'
-						},
-						metric: {
-							label: 'Km',
-							icon: '',
-							class: 'metric'
-						}
-					}
-				}
-
-			},
-			filledOrNot: 'filled',
-			backButton: false
-		};
-
-		$scope.eventsHandler = function(event) {
-			switch ($(event.target).attr('class')) {
-				case 'refresh':
-					$scope.loadStations();
-					break;
-
-				case 'alpha':
-					$scope.sortByAlpha();
-					break;
-
-				case 'metric':
-					$scope.sortByMetric();
-					break;
-
-				default:
-					$scope.loadStations();
-			}
-		}
+		$scope.$on("sortMetric", function (event) {
+		   $scope.sortByMetric();
+		});
 
 		var localfavs = [];
 		localStorageService.bind($scope, 'favoris', localfavs);
@@ -186,7 +140,7 @@ angular.module('veloToulouse.favoris', [])
         // HOME STATES AND NESTED VIEWS ========================================
         .state('favoris', {
             url: '/favoris',
-            templateUrl: 'partials/favoris.html',
+            templateUrl: 'favoris/favoris.html',
             controller: 'FavCtrl'
         })
         

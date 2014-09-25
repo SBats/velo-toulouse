@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('veloToulouse.station', [])
+angular.module('veloToulouse.station', ['veloToulouse.navbar'])
 
 .controller('StationCtrl', ['$scope', 'AStation', 'WhereAmI', 'localStorageService', 'CalculDistance', '$stateParams',
 	function($scope, AStation, WhereAmI, localStorageService, CalculDistance, $stateParams) {
@@ -8,34 +8,9 @@ angular.module('veloToulouse.station', [])
 		var localfavs = [];
 		localStorageService.bind($scope, 'favoris', localfavs);
 
-
-		$scope.title = "";
-
-		$scope.navbar = {
-			buttons: {
-				refresh: {
-					icon: 'refresh',
-					iconSrc: '',
-					style: 'fill:white;',
-					class: 'refresh'
-				}
-
-			},
-			menuButtons: {},
-			filledOrNot: '',
-			backButton: true
-		};
-
-		$scope.eventsHandler = function(event) {
-			switch ($(event.target).attr('class')) {
-				case 'refresh':
-					$scope.updateStation();
-					break;
-
-				default:
-					$scope.updateStation();
-			}
-		}
+		$scope.$on("refreshStation", function (event) {
+		   $scope.updateStation();
+		});
 
 		$scope.favOrNot = '';
 
@@ -99,8 +74,14 @@ angular.module('veloToulouse.station', [])
 
 					WhereAmI.getPosition(function(data) {	
 
-				    	$scope.station.distance = AStation.distance.query({geoloc: data.coords.latitude+','+data.coords.longitude, stationLoc: $scope.station.position.lat+','+$scope.station.position.lng});
-			   
+						var geoloc = data.coords.latitude+','+data.coords.longitude;
+						var goal = $scope.station.position.lat+','+$scope.station.position.lng;
+
+						CalculDistance.getDistance({originsCoord: geoloc, destinationsCoord: goal}, function(result) {
+							$scope.station.distance = result[0];
+							$scope.$digest();
+						});
+				    	 
 				    });
 				}
 
@@ -119,7 +100,7 @@ angular.module('veloToulouse.station', [])
         
         .state('station', {
             url: '/station/:stationId',
-            templateUrl: 'partials/station.html',
+            templateUrl: 'station/station.html',
             controller: 'StationCtrl'
         })
         

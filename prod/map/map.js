@@ -1,67 +1,33 @@
 'use strict';
 
-
-var lat = 43.603937,
-	lng = 1.443253,
-	currentZoom = 16,
-	mapElement = 'velo';
-
 angular.module('veloToulouse.map', [])
 
 .controller('MapCtrl', ['$scope', 'Stations', 'WhereAmI', '$state', 
 	function($scope, Stations, WhereAmI, $state) {
 
-		$scope.title = "Carte";
+		$scope.loading = true;
 
-		$scope.navbar = {
-			buttons: {
-				geoloc: {
-					icon: 'customicon:geoloc',
-					iconSrc: '',
-					style: '',
-					class: 'geoloc'
-				},
-				refresh: {
-					icon: 'refresh',
-					iconSrc: '',
-					style: 'fill:white;',
-					class: 'refresh'
-				}
+		$scope.$on("refreshMap", function (event) {
+		   $scope.refreshMarkers();
+		});
 
-			},
-			menuButtons: {},
-			filledOrNot: 'filled',
-			backButton: false
-		};
-
-		$scope.eventsHandler = function(event) {
-			switch ($(event.target).attr('class')) {
-				case 'refresh':
-					$scope.refreshMarkers();
-					break;
-
-				case 'geoloc':
-					$scope.map.geoloc();
-					break;
-
-				default:
-					$scope.refreshMarkers();
-			}
-		}
+		$scope.$on("geolocToggle", function (event) {
+		   $scope.map.geoloc();
+		});
 
 		$scope.stationMarkers = {
 			list: [],
 			control: {}
 		};
 
-		$scope.currentView = mapElement;
+		$scope.currentView = 'velo';
 
 		$scope.map = {
 		    center: {
-		        latitude: lat,
-		        longitude: lng
+		        latitude: 43.603937,
+		        longitude: 1.443253
 		    },
-		    zoom: currentZoom,
+		    zoom: 16,
 		    options: {
 		    	disableDefaultUI: true,
 		    	minZoom: 14,
@@ -75,21 +41,13 @@ angular.module('veloToulouse.map', [])
 		            	loadMarkers();
 
 	           	 	});
-		        },
-			    dragend: function(map, dragend){
-			    	var coord = map.getCenter();
-			    	lat = coord.k;
-					lng = coord.B;
-				},
-				zoom_changed: function(map, zoom_changed) {
-					currentZoom = map.getZoom();
-				}
+		        }
 		    },
 		    geoloc: function() {
 		    	if (navigator.geolocation) {
 					WhereAmI.getPosition(function(data) {
-				    	lat = data.coords.latitude;
-				        lng = data.coords.longitude;
+				    	var lat = data.coords.latitude;
+				        var lng = data.coords.longitude;
 
 				        $scope.map.control.refresh({latitude: lat, longitude: lng});
 				    });
@@ -109,6 +67,7 @@ angular.module('veloToulouse.map', [])
 
 		var loadMarkers = function() {
 			Stations.query(function(data) {
+				var i = 0;
 				angular.forEach(data, function(aStationMarker) {
 					var currentMarker = {}, available, percent;
 					
@@ -116,26 +75,31 @@ angular.module('veloToulouse.map', [])
 					currentMarker.latitude = aStationMarker.position.lat;
 					currentMarker.longitude = aStationMarker.position.lng;
 					
-					if(mapElement === 'station'){
+					if($scope.currentView === 'station'){
 						percent = Math.floor((Math.round(aStationMarker.available_bike_stands/aStationMarker.bike_stands*100)+5)/10)*10;
 					}else{
 						percent = Math.floor((Math.round(aStationMarker.available_bikes/aStationMarker.bike_stands*100)+5)/10)*10;
 					}
 					
-					if(mapElement === 'station'){
+					if($scope.currentView === 'station'){
 						available = String(aStationMarker.available_bike_stands);
 					}else{
 						available = String(aStationMarker.available_bikes);
 					}
 	
-					currentMarker.icon = 'img/markers/'+ mapElement.substr(0,1) +'marker-'+ percent +'.png';
+					currentMarker.icon = 'img/markers/'+ $scope.currentView.substr(0,1) +'marker-'+ percent +'.png';
 					currentMarker.options = {
 						'labelContent': available,
 						'labelAnchor': '16 48',
-						'labelClass': 'availableNumber '+mapElement
+						'labelClass': 'availableNumber '+$scope.currentView
 					};
 
 					$scope.stationMarkers.list.push(currentMarker);
+
+					i++;
+					if(i === data.length) {
+						$scope.loading = false;
+					}
 
 				});
 
@@ -146,10 +110,10 @@ angular.module('veloToulouse.map', [])
 		}
 
 		$scope.switchMarkers = function(event) {
-			if (mapElement === 'velo' ) {
-				$scope.currentView = mapElement = 'station';
+			if ($scope.currentView === 'velo' ) {
+				$scope.currentView = $scope.currentView = 'station';
 			}else {
-				$scope.currentView = mapElement = 'velo';
+				$scope.currentView = $scope.currentView = 'velo';
 			}
 
 			$scope.refreshMarkers();
@@ -158,6 +122,7 @@ angular.module('veloToulouse.map', [])
 		}
 
 		$scope.refreshMarkers = function() {
+			$scope.loading = true;
 			$scope.stationMarkers.list = [];
 			loadMarkers();
 
@@ -166,15 +131,13 @@ angular.module('veloToulouse.map', [])
 		//$scope.stations = Stations.query();
 }])
 
-.config(function($stateProvider, $urlRouterProvider) {
-  
-    $stateProvider
-        
-        // HOME STATES AND NESTED VIEWS ========================================
-        .state('map', {
-            url: '/map',
-            templateUrl: 'partials/map.html',
-            controller: 'MapCtrl'
-        })
-        
-});
+.directive('mapVelo',[
+	function() {
+		return {
+			restrict: 'E',
+			templateUrl: 'map/map.html',
+			controller: 'MapCtrl',
+			replace: false
+		}
+	}
+]);

@@ -1,0 +1,20 @@
+<div id="stations-map">
+
+	<google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control" events="map.events">
+
+		<markers models="stationMarkers.list" coords="'self'" events="markersEvents" icon="'icon'" isLabel="true" options="'options'" control="stationMarkers.control"></markers>
+
+	</google-map>
+
+	<paper-fab iconSrc="img/icons/{{currentView}}-view-white.png" ng-click="switchMarkers(event)" class="switch {{currentView}}"></paper-fab>
+
+	<div class="loader-handler" ng-show="loading">
+		<div class="loader">
+	      <div class="loadinglocation"></div>
+	    </div>
+		<p>Chargement des stations</p>
+	</div>
+	
+
+</div>
+
