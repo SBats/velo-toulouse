@@ -5,7 +5,7 @@
 var ville = 'Toulouse',
 	decauxApiKey = '003549deb9ac51b9d34cacc018c0e7f97039c6f9';
 
-angular.module('veloServices', ['ngResource','google-maps'])
+angular.module('veloServices', ['ngResource'])
 
 .factory('AStation', ['$resource',
 	function($resource){

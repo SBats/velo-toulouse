@@ -262,15 +262,15 @@ h1 {
   background: #f34235;
 }
 
-#stations-map, .angular-google-map, .angular-google-map-container { height: 100%; width: 100%; }
+#stations-map, #map{ height: 100%; width: 100%; }
 
 .availableNumber {
   font-family: 'Roboto', sans-serif;
   font-size: 1em;
   font-weight: 700;
-  display: block;
-  width: 34px;
+  width: 18px;
   text-align: center;
+  padding: 1px 0;
 }
 
 .availableNumber.velo {
@@ -280,6 +280,29 @@ h1 {
 .availableNumber.station {
   color: #5f7c8a;
 } 
+
+.marker-cluster {
+  background: #fff;
+  display: block;
+  width: 40px;
+  height: 40px;
+  color: #7e7e7e;
+  font-weight: 700;
+  padding: 3px;
+  text-align: center;
+  border-radius: 20px;
+  border: 8px solid #7e7e7e;
+}
+
+.marker-cluster.velo {
+  color: #f34235;
+  border-color: #f34235;
+}
+
+.marker-cluster.station {
+  color: #5f7c8a;
+  border-color: #5f7c8a;
+}
 
 .loader-handler {
   display: block;

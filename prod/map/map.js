@@ -7,73 +7,73 @@ angular.module('veloToulouse.map', [])
 
 		$scope.loading = true;
 
+		var map, markers;
+
 		$scope.$on("refreshMap", function (event) {
-		   $scope.refreshMarkers();
+		   refreshMarkers();
 		});
 
 		$scope.$on("geolocToggle", function (event) {
-		   $scope.map.geoloc();
+		   geoloc();
 		});
-
-		$scope.stationMarkers = {
-			list: [],
-			control: {}
-		};
 
 		$scope.currentView = 'velo';
 
-		$scope.map = {
-		    center: {
-		        latitude: 43.603937,
-		        longitude: 1.443253
-		    },
-		    zoom: 16,
-		    options: {
-		    	disableDefaultUI: true,
-		    	minZoom: 14,
-		    	maxZoom: 18
-		    },
-		    control: {},
-		    events: {
-		    	tilesloaded: function (map) {
-		            $scope.$apply(function () {
-		            	$scope.mapInstance = map;
-		            	loadMarkers();
+		   
 
-	           	 	});
-		        }
-		    },
-		    geoloc: function() {
-		    	if (navigator.geolocation) {
-					WhereAmI.getPosition(function(data) {
-				    	var lat = data.coords.latitude;
-				        var lng = data.coords.longitude;
+		function initMap() {
+			map = L.map('map', {
+			    center: [43.603937, 1.443253],
+			    zoom: 16,
+			    minZoom: 14,
+			   	maxZoom: 18,
+			    maxBounds: [
+				    [43.538430, 1.374514],
+				    [43.665970, 1.517680]
+				],
+				zoomControl: false,
+				attributionControl: false
+			});
+			L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
+			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			    maxZoom: 18
+			}).addTo(map);
+			loadMarkers();
+		}
 
-				        $scope.map.control.refresh({latitude: lat, longitude: lng});
-				    });
-				}
-		    }
-		};
+		function geoloc() {
+			if (navigator.geolocation) {
+				/*map.locate(
+					{
+						setView: true,
+						enableHighAccuracy: true
+					}
+				);*/
+				WhereAmI.getPosition(function(data) {
+			    	var lat = data.coords.latitude;
+			        var lng = data.coords.longitude;
 
-		$scope.markersEvents = {
-          click: function (gMarker, eventName, model) {
-            if(model.id){
-              $state.go('station' , {'stationId': model.id});
-            }
-          }
-        };
+			        map.setView([lat, lng]);
+			    });
+			}
+		}
+		
 
-		var markers = [];
-
-		var loadMarkers = function() {
+		function loadMarkers() {
 			Stations.query(function(data) {
 				var i = 0;
+				markers = new L.markerClusterGroup({
+					showCoverageOnHover: false,
+					disableClusteringAtZoom: 16,
+					iconCreateFunction: function (cluster) {
+						var childCount = cluster.getChildCount();
+
+						return new L.DivIcon({ html: '<div><span>' + childCount + '</span></div>', className: 'marker-cluster ' + $scope.currentView, iconSize: new L.Point(40, 40) });
+					}
+				});
 				angular.forEach(data, function(aStationMarker) {
-					var currentMarker = {}, available, percent;
-					
-					currentMarker.id = aStationMarker.number;
-					currentMarker.latitude = aStationMarker.position.lat;
-					currentMarker.longitude = aStationMarker.position.lng;
+					var available, 
+						percent;
 					
 					if($scope.currentView === 'station'){
 						percent = Math.floor((Math.round(aStationMarker.available_bike_stands/aStationMarker.bike_stands*100)+5)/10)*10;
@@ -86,22 +86,41 @@ angular.module('veloToulouse.map', [])
 					}else{
 						available = String(aStationMarker.available_bikes);
 					}
-	
-					currentMarker.icon = 'img/markers/'+ $scope.currentView.substr(0,1) +'marker-'+ percent +'.png';
-					currentMarker.options = {
-						'labelContent': available,
-						'labelAnchor': '16 48',
-						'labelClass': 'availableNumber '+$scope.currentView
-					};
 
-					$scope.stationMarkers.list.push(currentMarker);
+					var currentIcon = L.icon({
+					    iconUrl: 'img/markers/'+ $scope.currentView.substr(0,1) +'marker-'+ percent +'.png',
+					    iconSize: [38, 60],
+					    iconAnchor: [30, 60],
+					    labelAnchor: [-10, -37]
+					});
+
+					var currentMarker = new L.Marker([aStationMarker.position.lat, aStationMarker.position.lng],{
+						icon: currentIcon,
+						title: available,
+						alt: 'station-'+aStationMarker.number,
+						riseOnHover: true,
+						riseOffset: 600
+					}).bindLabel(
+						available, 
+						{ 
+							noHide: true ,
+							className: 'availableNumber '+$scope.currentView,
+							direction: 'left'
+						}
+					).on('click', function() {
+						$state.go('station' , {'stationId': aStationMarker.number});
+					});
+
+					markers.addLayer(currentMarker);
 
 					i++;
 					if(i === data.length) {
+						map.addLayer(markers);
 						$scope.loading = false;
 					}
 
 				});
+				
 
 				
 				
@@ -116,18 +135,18 @@ angular.module('veloToulouse.map', [])
 				$scope.currentView = $scope.currentView = 'velo';
 			}
 
-			$scope.refreshMarkers();
+			refreshMarkers();
 			
 
 		}
 
-		$scope.refreshMarkers = function() {
+		function refreshMarkers() {
 			$scope.loading = true;
-			$scope.stationMarkers.list = [];
+			map.removeLayer(markers);
 			loadMarkers();
 
 		}
-
+		initMap();
 		//$scope.stations = Stations.query();
 }])
 

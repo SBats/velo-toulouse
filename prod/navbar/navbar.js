@@ -21,7 +21,6 @@ angular.module('veloToulouse.navbar',['veloToulouse.favoris', 'veloToulouse.map'
 		}
 
 		$scope.eventsHandler = function(event) {
-			console.log($rootScope.childScope);
 			switch ($(event.target).attr('class')) {
 				case 'refresh-map':
 					$rootScope.$broadcast("refreshMap");

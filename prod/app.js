@@ -4,7 +4,6 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('veloToulouse', [
   'ui.router',
-  'google-maps',
   'ngAnimate',
   'LocalStorageModule',
   'veloToulouse.home',
