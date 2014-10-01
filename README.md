@@ -32,4 +32,4 @@ Things to do
 - Customise OpenStreetMap
 - Make a generic version of the app which can be used for any city of the JCDecaux contracts
 - Replace Css with LESS and allow simple theming with color var.
-- Make a phonegap version of the app
+- Make a phonegap (or ionic ?) version of the app
