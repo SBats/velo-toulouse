@@ -13,6 +13,9 @@ It allows you to :
 - Get informations avout it (remaining bicyle and stands, distance from your localisation)
 - Add stations to your favorites and manage them
 
+You can try it on my website :
+<a href="http://simonbats.com/velo-toulouse" title="Velo-toulouse concept app" target="_blank">http://simonbats.com/velo-toulouse</a>
+
 Feel free to give any feedback or idea about the project, I'd love to push it further !
 
 
@@ -21,15 +24,15 @@ Update
 
 - Replaced gmap with leaflet.js and opensource project OpenStreetMap
 - Added marker clustering
+- Made a generic version of the app which can be used for any city of the JCDecaux contracts and fire an alert if the cit is not in the JCDecaux databse
 
 
 Things to do 
 =============
 
-- Add map path from localisation to any station
-- Add alert system for number of remaining bicycle or stands.
-- Fix the issue about the focused element on mobile button touch 
 - Customise OpenStreetMap
-- Make a generic version of the app which can be used for any city of the JCDecaux contracts
-- Replace Css with LESS and allow simple theming with color var.
+- Replace Css with LESS and allow simple theming with color var
+- Optimise animations on mobile devices
+- Add map path from localisation to any station
+- Add alert system for number of remaining bicycle or stands
 - Make a phonegap (or ionic ?) version of the app

@@ -2,53 +2,35 @@
 
 angular.module('veloToulouse.map', [])
 
-.controller('MapCtrl', ['$scope', 'Stations', 'WhereAmI', '$state', 
-	function($scope, Stations, WhereAmI, $state) {
-
-		$scope.loading = true;
-
-		var map, markers;
-
-		$scope.$on("refreshMap", function (event) {
-		   refreshMarkers();
-		});
-
-		$scope.$on("geolocToggle", function (event) {
-		   geoloc();
-		});
-
-		$scope.currentView = 'velo';
-
-		   
+.controller('MapCtrl', ['$scope', 'Stations', 'WhereAmI', 'calculCoords', '$state', 
+	function($scope, Stations, WhereAmI, calculCoords, $state) {
 
 		function initMap() {
-			map = L.map('map', {
-			    center: [43.603937, 1.443253],
-			    zoom: 16,
-			    minZoom: 14,
-			   	maxZoom: 18,
-			    maxBounds: [
-				    [43.538430, 1.374514],
-				    [43.665970, 1.517680]
-				],
-				zoomControl: false,
-				attributionControl: false
+
+			calculCoords.getCityCoords(mapDatas.city, function(data){
+				map = L.map('map', {
+				    center: data,
+				    zoom: 16,
+				    minZoom: 14,
+				   	maxZoom: 18,
+				    maxBounds: [
+					    [43.538430, 1.374514],
+					    [43.665970, 1.517680]
+					],
+					zoomControl: false,
+					attributionControl: false
+				});
+				L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
+				    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				    maxZoom: 18
+				}).addTo(map);
+				loadMarkers();
 			});
-			L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png', {
-			    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			    maxZoom: 18
-			}).addTo(map);
-			loadMarkers();
+			
 		}
 
 		function geoloc() {
 			if (navigator.geolocation) {
-				/*map.locate(
-					{
-						setView: true,
-						enableHighAccuracy: true
-					}
-				);*/
 				WhereAmI.getPosition(function(data) {
 			    	var lat = data.coords.latitude;
 			        var lng = data.coords.longitude;
@@ -60,7 +42,7 @@ angular.module('veloToulouse.map', [])
 		
 
 		function loadMarkers() {
-			Stations.query(function(data) {
+			Stations.query({city: mapDatas.city, decauxApiKey: mapDatas.decauxApiKey},function(data) {		
 				var i = 0;
 				markers = new L.markerClusterGroup({
 					showCoverageOnHover: false,
@@ -124,6 +106,14 @@ angular.module('veloToulouse.map', [])
 
 				
 				
+			},function(err){
+				if (err.status === 400) {
+					sweetAlert("Sorry...", "There's no contract for the city of "+mapDatas.city, "error" );
+					angular.element('.refresh-map').addClass('hideIt');
+					angular.element('.switch').addClass('hideIt');
+					angular.element('.links li:nth(1)').addClass('hideIt');
+					$scope.loading = false;
+				}	
 			});
 			
 		}
@@ -146,8 +136,25 @@ angular.module('veloToulouse.map', [])
 			loadMarkers();
 
 		}
+
+
+		$scope.loading = true;
+
+		var map, 
+			markers;
+
+		$scope.$on("refreshMap", function (event) {
+		   refreshMarkers();
+		});
+
+		$scope.$on("geolocToggle", function (event) {
+		   geoloc();
+		});
+
+		$scope.currentView = 'velo';
+
 		initMap();
-		//$scope.stations = Stations.query();
+
 }])
 
 .directive('mapVelo',[

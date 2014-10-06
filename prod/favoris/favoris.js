@@ -54,7 +54,7 @@ angular.module('veloToulouse.favoris', ['veloToulouse.navbar'])
 
 			$scope.favStations = [];
 
-			Stations.query(function(data){
+			Stations.query({city: mapDatas.city, decauxApiKey: mapDatas.decauxApiKey},function(data){
 				var stations = data;
 				var geoloc;
 				if (navigator.geolocation) {

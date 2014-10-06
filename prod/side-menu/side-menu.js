@@ -19,6 +19,7 @@ angular.module('veloToulouse.sideMenu',[])
 		$scope.closeMenu = function() {
 			$('#side-menu').removeClass('opened');
 			$('#side-menu').addClass('closed');
+			$('.view-container').removeClass('noScroll');
 		}
 	}
 ]);

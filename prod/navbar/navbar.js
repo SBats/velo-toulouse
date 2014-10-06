@@ -18,6 +18,7 @@ angular.module('veloToulouse.navbar',['veloToulouse.favoris', 'veloToulouse.map'
 		$scope.openMenu = function() {
 			$('#side-menu').addClass('opened');
 			$('#side-menu').removeClass('closed');
+			$('.view-container').addClass('noScroll');
 		}
 
 		$scope.eventsHandler = function(event) {

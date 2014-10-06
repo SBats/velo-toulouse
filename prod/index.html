@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="ressources/leaflet/leaflet.css">
   <link rel="stylesheet" href="ressources/marker-cluster/MarkerCluster.css">
   <link rel="stylesheet" href="ressources/leaflet-label/leaflet.label.css">
+  <link rel="stylesheet" href="ressources/sweetalert/lib/sweet-alert.css">
   <link rel="stylesheet" href="app.css"/>
   <script src="ressources/polymer/platform/platform.js"></script>
   <link rel="import" href="ressources/polymer/paper-elements/paper-elements.html">
@@ -36,22 +37,24 @@
   <div side-menu></div>
 
   <script src="ressources/jquery/jquery.min.js"></script>
-  <script src="ressources/angular/angular.min.js"></script>
+  <script src="ressources/angular/angular.js"></script>
+  <script src="ressources/sweetalert/lib/sweet-alert.min.js"></script>
   <script src="ressources/angular-animate/angular-animate.min.js"></script>
   <script src="ressources/angular-ui-router/release/angular-ui-router.min.js"></script>
   <script src="ressources/angular-resource/angular-resource.min.js"></script>
-  <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+  <script src='http://maps.googleapis.com/maps/api/js?sensor=false'></script>
   <script src='ressources/leaflet/leaflet.js'></script>
   <script src='ressources/marker-cluster/leaflet.markercluster.js'></script>
   <script src='ressources/leaflet-label/leaflet.label.js'></script>
   <script src="ressources/angular-local-storage/angular-local-storage.min.js"></script>
-  <script src="app.js"></script>
-  <script src="services.js"></script>  
+  <script src="commons/map-services.js"></script>  
+  <script src="commons/jcdecaux-services.js"></script>  
   <script src="home/home.js"></script>  
   <script src="navbar/navbar.js"></script>  
   <script src="side-menu/side-menu.js"></script>  
   <script src="map/map.js"></script>
   <script src="station/station.js"></script>
   <script src="favoris/favoris.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -14,7 +14,7 @@ angular.module('veloToulouse.station', ['veloToulouse.navbar'])
 
 		$scope.favOrNot = '';
 
-		$scope.station = AStation.infos.query({stationNumber: $stateParams.stationId}, function() {
+		$scope.station = AStation.infos.query({city: mapDatas.city, decauxApiKey: mapDatas.decauxApiKey, stationNumber: $stateParams.stationId}, function() {
 
 			$scope.station.name = trim1($scope.station.name.substring($scope.station.name.indexOf('-')+1));
 			$scope.station.distance = 'Calcul...';

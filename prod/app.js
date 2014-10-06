@@ -1,5 +1,11 @@
 'use strict';
 
+var mapDatas = {
+  decauxApiKey: "003549deb9ac51b9d34cacc018c0e7f97039c6f9",
+  city: "Toulouse",
+}
+
+
 /* App */
 // Declare app level module which depends on views, and components
 var app = angular.module('veloToulouse', [
@@ -12,7 +18,8 @@ var app = angular.module('veloToulouse', [
   'veloToulouse.favoris',
   'veloToulouse.navbar',
   'veloToulouse.sideMenu',
-  'veloServices'
+  'jcDecauxServices',
+  'mapServices'
 ]);
 
 app.controller('MainCtrl',['$rootScope', '$scope', '$state',

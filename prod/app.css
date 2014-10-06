@@ -9,6 +9,13 @@
   webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.hideIt {
+  opacity: .3;
+  pointer-events: none;
 }
 
 body, html {
@@ -42,6 +49,10 @@ h1 {
     -moz-transition:all 0.4s ease-in-out;
     -o-transition:all 0.4s ease-in-out;
     transition:all 0.4s ease-in-out;
+}
+
+.view-container.noScroll {
+  overflow: hidden;
 }
 
 .view-container.shown {
@@ -490,7 +501,8 @@ h1 {
 .favs .aStation {
   position: relative;
   clear: both;
-  display: inline-block;
+  display: block;
+  overflow: hidden;
   width: 100%;
   border-bottom: 1px solid rgba(0,0,0,0.16);
 }

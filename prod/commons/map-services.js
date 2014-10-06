@@ -2,31 +2,7 @@
 
 /* Services */
 
-var ville = 'Toulouse',
-	decauxApiKey = '003549deb9ac51b9d34cacc018c0e7f97039c6f9';
-
-angular.module('veloServices', ['ngResource'])
-
-.factory('AStation', ['$resource',
-	function($resource){
-
-    	return {
-        infos: $resource('https://api.jcdecaux.com/vls/v1/stations/:stationNumber?contract='+ville+'&apiKey='+decauxApiKey, {}, {
-      		query: {method:'GET', params:{stationNumber: ''}, isArray: false}
-      	})
-      };
- 	}
- ])
-
-.factory('Stations', ['$resource',
-	function($resource){
-
-    	return $resource('https://api.jcdecaux.com/vls/v1/stations?contract='+ville+'&apiKey='+decauxApiKey, {}, {
-      		query: {method:'GET', params:{}, isArray: true}
-      	});
-
- 	}
- ])
+angular.module('mapServices', ['ngResource'])
 
 .factory('WhereAmI', [
   function() {
@@ -78,6 +54,34 @@ angular.module('veloServices', ['ngResource'])
             callback(result);
           }
         );
+        return callback;
+
+      }
+      
+    }
+    
+
+  }
+])
+
+.factory('calculCoords', [
+  function(cityName) {
+    return {
+
+      getCityCoords: function(city, callback) {
+
+        var geocoder = new google.maps.Geocoder(),
+            latLng = [43.603937, 1.443253];
+        geocoder.geocode({'address': city}, function(response, status){
+          var result;
+          if (status == google.maps.GeocoderStatus.OK) {
+            result = [response[0].geometry.location.k,response[0].geometry.location.B] ;
+          } else {
+            result = latLng;
+            console.error("Geocode was not successful for the following reason: " + status);
+          }
+          callback(result)
+        });
         return callback;
 
       }
